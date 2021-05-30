@@ -14,19 +14,25 @@ var scores , roundScore , activePlayer , gameplaying;
 init();
 
 
+
+
 document.querySelector('.btn-roll').addEventListener('click',function(){
     //  block roll btn
     if(gameplaying){
         //  rolling number
-    dice = Math.floor(Math.random() * 6 )+ 1;
+    var dice1 = Math.floor(Math.random() * 6 )+ 1;
+    var dice2 = Math.floor(Math.random() * 6 )+ 1;
 
     // display the result
-    var diceDom = document.querySelector('.dice');
-    diceDom.style.display='block';
-    diceDom.src = 'dice-'+dice+'.png';
+    document.getElementById('dice-1').style.display='block';
+    document.getElementById('dice-2').style.display='block';
+document.getElementById('dice-1').src = 'dice-'+dice1+'.png';
+    document.getElementById('dice-2').src = 'dice-'+dice2+'.png';
 
-     if(dice !== 1){
-     roundScore +=dice;
+    // if roll 6 two time in a row
+
+    if(dice1 !== 1 && dice2 !== 1){
+     roundScore +=dice1 + dice2;
        document.querySelector('#current-' + activePlayer).textContent = roundScore;
     }else{
         // next player
@@ -70,11 +76,20 @@ document.querySelector('.btn-hold').addEventListener('click', function(){
     // update the UI
     document.querySelector('#score-' + activePlayer).textContent =  scores[activePlayer];
 
+    var input = document.querySelector('.final-score').value;
+
+    var winningScore;
+    if(input){
+        winningScore = input;
+        }else{
+            winningScore =100;
+        }
     // check if player won the game 
 
-    if(scores[activePlayer] >= 100){
+    if(scores[activePlayer] >= winningScore){
         document.querySelector('#name-'+activePlayer).textContent = 'winner!';
-        document.querySelector('.dice').style.display = 'none';
+        document.getElementById('dice-1').style.display='none';
+        document.getElementById('dice-2').style.display='none';
         document.querySelector('.player-'+activePlayer+'-panel').classList.add('winner');
         document.querySelector('.player-'+activePlayer+'-panel').classList.remove('active');
         gameplaying = false ;
@@ -130,8 +145,8 @@ function nextPlayer(){
     document.querySelector('.player-0-panel').classList.toggle('active');
     document.querySelector('.player-1-panel').classList.toggle('active');
 
-    document.querySelector('.dice').style.display = 'none';
-
+    document.getElementById('dice-1').style.display='none';
+    document.getElementById('dice-2').style.display='none';
 
 }
 // for restart the game.....
@@ -145,8 +160,8 @@ function init() {
     gameplaying = true;
 
     
-    
-    document.querySelector('.dice').style.display= 'none';
+    document.getElementById('dice-1').style.display='none';
+    document.getElementById('dice-2').style.display='none';
     
     document.getElementById('score-0').textContent = '0';
     document.getElementById('score-1').textContent = '0';
